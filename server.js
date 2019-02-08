@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/user',userRouter);
+app.use('/user', userRouter);
 
 app.listen(3000, () => {
     console.log('running on 3000');
