@@ -3,9 +3,11 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const UserSchema = require('./../model/User');
+const key = require('./../config/key');
 
 router.post('/register', (req, res) => {
     // 账号是否已存在
+    console.log(req.body);
     UserSchema.findOne({accountNumber: req.body.accountNumber})
         .then(user => {
             if(user) {
@@ -41,7 +43,18 @@ router.post('/login', (req, res) => {
                 bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
                     if(err) throw err;
                     if(isMatch) {
-                        res.status(200).send('登录成功');
+                        const rules = {
+                            accountNumber: req.body.accountNumber,
+                            id: req.body.id,
+                            userName: req.body.userName
+                        };
+                        jwt.sign(rules, key.secretOrPrivateKey, {expiresIn: 60 * 60}, (err, token) => {
+                            if(err) throw err;
+                            res.json({
+                                success: true,
+                                token: token
+                            })
+                        })
                     } else {
                         res.status(401).send('密码错误');
                     }
