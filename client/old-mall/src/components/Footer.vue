@@ -1,25 +1,45 @@
 <template>
 	<div class="footer">
-		<div class="icon">
+		<router-link 
+			class="icon"
+			:to="{name: 'index'}"
+			tag="div"
+		>
 			<span class="iconfont">&#xe69a;</span>
 			<p class="desc">转手</p>
-		</div>
-		<div class="icon">
+		</router-link>
+		<router-link 
+			class="icon"
+			:to="{name: 'blog'}"
+			tag="div"
+		>
 			<span class="iconfont">&#xe6cf;</span>
-			<p class="desc">校园</p>			
-		</div>
-		<div class="icon add">
+			<p class="desc">帖子</p>			
+		</router-link>
+		<router-link 
+			class="icon add"
+			:to="{name: 'add'}"
+			tag="div"
+		>
 			<span class="iconfont">&#xe61f;</span>
 			<p class="desc">发布</p>			
-		</div>
-		<div class="icon">
+		</router-link>
+		<router-link 
+			class="icon"
+			:to="{name: 'news'}"
+			tag="div"
+		>
 			<span class="iconfont">&#xe6ad;</span>
 			<p class="desc">消息</p>			
-		</div>
-		<div class="icon">
+		</router-link>
+		<router-link 
+			class="icon"
+			:to="{name: 'me'}"
+			tag="div"
+		>
 			<span class="iconfont">&#xe6a3;</span>
 			<p class="desc">我的</p>			
-		</div>
+		</router-link>
 	</div>
 </template>
 <script>
@@ -33,27 +53,28 @@
 		position fixed
 		bottom 0
 		z-index 1000
+		background #fff
 		height 70px
 		width 100%
 		display flex
-		box-shadow 0 -2px 2px #bbb
+		box-shadow 0 -10px 20px #cfcfcf
 		.icon
 			flex 1
-			box-sizing border-box
-			border 1px solid #000
+			// box-sizing border-box
+			// border 1px solid #000
 			height 100%
 			text-align center
 			.iconfont
 				display block
 				height 70%
-				box-sizing border-box
-				border 1px solid #000
+				// box-sizing border-box
+				// border 1px solid #000
 				font-size .6rem
 				width 100%
 			.desc
 				height 30%
-				box-sizing border-box
-				border 1px solid #000
+				// box-sizing border-box
+				// border 1px solid #000
 				font-size .2rem
 				letter-spacing .1rem
 				text-indent .1rem

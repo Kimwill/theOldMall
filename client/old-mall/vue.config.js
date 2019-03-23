@@ -1,6 +1,10 @@
 const path = require('path')
 const debug = process.env.NODE_ENV !== 'production'
 
+function resolve (dir) {
+  console.log(__dirname)
+  return path.join(__dirname, dir)
+}
 module.exports = {
   publicPath: '/', // 根域上下文目录
   outputDir: 'dist', // 构建输出目录
@@ -25,11 +29,11 @@ module.exports = {
     // })
   },
   chainWebpack: config => { // webpack链接API，用于生成和修改webapck配置，https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-  	// config.resolve.alias
-	  // 	.set('@$', resolve('src'))
-	  // 	.set('assets', resolve('src/assets'))
-	  // 	.set('components', resolve('src/components'))
-	  // 	.set('view', resolve('src/view'))
+  	config.resolve.alias
+	  	.set('@$', resolve('src'))
+	  	.set('assets', resolve('src/assets'))
+	  	.set('components', resolve('src/components'))
+	  	.set('views', resolve('src/views'))
   },
   parallel: require('os').cpus().length > 1, // 构建时开启多进程处理babel编译
   pluginOptions: { // 第三方插件配置
@@ -38,7 +42,7 @@ module.exports = {
   },
   devServer: {
     open: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 8081,
     https: false,
     hotOnly: false,

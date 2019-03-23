@@ -17,18 +17,57 @@
 				</div>
 			</div>
 		</div>
+		<div class="newsContent">
+			<div class="newsItem" v-for="(item, index) in newTestData">
+				<div class="userIcon">
+					<img :src="item.userIcon">
+				</div>
+				<div class="text">
+					<div class="userName">{{item.userName}}</div>
+					<div class="content">{{item.content}}</div>
+				</div>
+				<div class="goodImg">
+					<img :src="item.goodImg">
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
 	export default {
-		name: "news"
+		name: "news",
+		data() {
+			return {
+				newTestData: [{
+					userIcon: require('assets/img/news/testData/userIcon.jpg'),
+					userName: '钦',
+					content: '点击查看评价内容',
+					goodImg: require('assets/img/news/testData/good.jpg')
+				}, {
+					userIcon: require('assets/img/news/testData/userIcon.jpg'),
+					userName: '钦',
+					content: '点击查看评价内容',
+					goodImg: require('assets/img/news/testData/good.jpg')
+				}, {
+					userIcon: require('assets/img/news/testData/userIcon.jpg'),
+					userName: '钦',
+					content: '点击查看评价内容',
+					goodImg: require('assets/img/news/testData/good.jpg')
+				}, {
+					userIcon: require('assets/img/news/testData/userIcon.jpg'),
+					userName: '钦',
+					content: '点击查看评价内容',
+					goodImg: require('assets/img/news/testData/good.jpg')
+				}]
+			}
+		}
 	}
 </script>
 <style lang="stylus" scoped>
-@import './../assets/style/varible.styl'
+@import '~assets/style/varible.styl'
 	.news
 		width 100%
-		background $bgColor
+		background #fff
 		.banner
 			height 2.2rem
 			width 100%
@@ -77,7 +116,55 @@
 						font-size .2rem
 						letter-spacing .05rem
 						text-indent .1rem		
-					.iconfont:nth-child(1) {
-						color
-					}
+		.newsContent
+			margin 1rem $pageEdge $footerMargin $pageEdge
+			// border 1px solid #000
+			box-sizing border-box
+			.newsItem:last-child
+				border none
+			.newsItem
+				width 100%
+				height 1.5rem
+				display flex
+				align-items center
+				margin-bottom .2rem
+				// border 1px solid #000
+				border-bottom 1px solid #ccc
+				box-sizing border-box
+				.userIcon
+					width 15%
+					padding .05rem .1rem
+					box-sizing border-box
+					// border 1px solid #000
+					box-sizing border-box
+					img
+						width 100%
+						// border 1px solid #000
+						box-sizing border-box
+				.text
+					width 60%
+					// border 1px solid #000
+					box-sizing border-box
+					.userName
+						font-size .3rem
+						font-weight bold
+						// border 1px solid #000
+						box-sizing border-box
+					.content
+						font-size .2rem
+						color #999
+						// border 1px solid #000
+						box-sizing border-box
+				.goodImg
+					width 25%
+					height 100%
+					overflow hidden
+					padding .1rem 0
+					// border 1px solid #000
+					box-sizing border-box
+					img
+						width 100%
+						// height 100%
+						// border 1px solid #000
+						box-sizing border-box
 </style>

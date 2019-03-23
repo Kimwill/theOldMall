@@ -3,11 +3,18 @@
     <router-view/>
   </div>
 </template>
+<script>
+  export default {
+    components: {
+    }
+  }
+</script>
 <style lang="stylus">
-	*
-		margin 0
-		padding 0
-	html,body,#app
-		width 100%
-		height 100%
+@import '~assets/style/varible.styl'
+  html,
+  body,
+  #app
+    width 100%
+    height 100%
+    background $bgColor
 </style>

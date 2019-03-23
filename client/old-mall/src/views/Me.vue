@@ -24,16 +24,21 @@
 				</div>
 			</div>
 		</div>	
-		<div class="wrap" v-for="item in itemArr">
-			<div class="itemWrap">
-				<img :src="item.imgSrc" class="itemIcon">
+		<div class="wrap">
+			<div class="itemWrap" v-for="item in itemArr">
+				<div class="imgWrap">
+					<img :src="item.imgSrc" class="itemIcon">
+				</div>
 				<span class="itemText">{{item.itemText}}</span>
 				<span class="iconfont">&#xe64a;</span>
+				<span class="itemNum">0</span>
 			</div>
 		</div>
-		<div class="wrap" v-for="item in itemSetArr">
-			<div class="itemWrap">
-				<img :src="item.imgSrc" class="itemIcon">
+		<div class="wrap">
+			<div class="itemWrap" v-for="item in itemSetArr">
+				<div class="imgWrap">
+					<img :src="item.imgSrc" class="itemIcon">
+				</div>
 				<span class="itemText">{{item.itemText}}</span>
 				<span class="iconfont">&#xe64a;</span>
 			</div>
@@ -46,27 +51,27 @@
 		data() {
 			return {
 				itemArr: [{
-					imgSrc: require('./../assets/img/me/issue.png'),
+					imgSrc: require('assets/img/me/issue.png'),
 					itemText: '我发布的'
 				}, {
-					imgSrc: require('./../assets/img/me/sale.png'),
+					imgSrc: require('assets/img/me/sale.png'),
 					itemText: '我卖出的'
 				}, {
-					imgSrc: require('./../assets/img/me/buy.png'),
+					imgSrc: require('assets/img/me/buy.png'),
 					itemText: '我买到的'
 				}, {
-					imgSrc: require('./../assets/img/me/collection.png'),
+					imgSrc: require('assets/img/me/collection.png'),
 					itemText: '我收藏的'
 				}, {
-					imgSrc: require('./../assets/img/me/article.png'),
+					imgSrc: require('assets/img/me/article.png'),
 					itemText: '我的帖子'
 				}],
 
 				itemSetArr: [{
-					imgSrc: require('./../assets/img/me/set.png'),
+					imgSrc: require('assets/img/me/set.png'),
 					itemText: '设置'
 				}, {
-					imgSrc: require('./../assets/img/me/sevice.png'),
+					imgSrc: require('assets/img/me/sevice.png'),
 					itemText: '客服中心'
 				}]
 			}
@@ -74,58 +79,101 @@
 	}
 </script>
 <style lang="stylus" scoped>
-@import './../assets/style/varible.styl'
+@import '~assets/style/varible.styl'
 	.me
 		width 100%
 		background $bgColor
-	.wrap
-		box-sizing border-box
-		width 100%
-		padding 0 $pageEdge
-		.info
-			height 2rem
+		.wrap
+			box-sizing border-box
 			width 100%
-			box-sizing border-box
-			border 1px solid #000
-			display flex
-			.text
-				flex 7
-				margin auto 0
-				box-sizing border-box
-				border 1px solid #000
-				.userName
-					font-size .5rem
-					display block
-					margin-bottom .1rem				
-				.userDesc
-					font-size .2rem
-					display block
-			.avatar
-				flex 2.5
-				box-sizing border-box
-				border 1px solid #000
-			.iconfont
-				flex .5
+			padding 0 $pageEdge
+			background #fff
+			margin-bottom .2rem
+			.info
 				height 2rem
-				line-height 2rem
-				font-size .4rem
+				width 100%
 				box-sizing border-box
 				border 1px solid #000
-		.num
-			display flex
-			height 1rem
-			box-sizing border-box
-			border 1px solid #000
-			.numWrap
-				flex 1
-				margin auto 0
-				text-align center
+				display flex
+				.text
+					flex 7
+					margin auto 0
+					box-sizing border-box
+					border 1px solid #000
+					.userName
+						font-size .5rem
+						display block
+						margin-bottom .1rem				
+					.userDesc
+						font-size .2rem
+						display block
+				.avatar
+					flex 2.5
+					box-sizing border-box
+					border 1px solid #000
+				.iconfont
+					flex .5
+					height 2rem
+					line-height 2rem
+					font-size .4rem
+					box-sizing border-box
+					border 1px solid #000
+			.num
+				display flex
+				height 1rem
 				box-sizing border-box
 				border 1px solid #000
-				.number
-					display block
+				.numWrap
+					flex 1
+					margin auto 0
+					text-align center
+					box-sizing border-box
+					border 1px solid #000
+					.number
+						display block
+						font-size .3rem
+					.numDesc
+						display block
+						font-size .2rem
+			.itemWrap
+				width 100%
+				height .8rem
+				border-bottom 1px solid #ccc
+				overflow hidden
+				.imgWrap
+					float left
+					overflow hidden
+					width 10%
+					height 100%
+					position relative
+					overflow hidden
+					.itemIcon
+						width 80%
+						display block
+						position absolute
+						top 0
+						right 0
+						bottom 0
+						left 0
+						margin auto
+				.itemText
+					width 70%
+					display inline-block
+					height 100%
+					line-height .8rem
 					font-size .3rem
-				.numDesc
-					display block
-					font-size .2rem
+					float left
+				.itemNum
+					width 10%
+					display inline-block
+					height 100%
+					line-height .8rem
+					font-size .24rem
+					float right
+				.iconfont
+					display inline-block
+					height 100%
+					line-height .8rem
+					width 10%
+					float right
 </style>

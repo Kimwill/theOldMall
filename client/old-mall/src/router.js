@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Login from './views/Login.vue'
-import Register from './views/Register.vue'
-import News from './views/News.vue'
-import Me from './views/Me.vue'
+import User from 'views/User.vue'
+import Login from 'views/Login.vue'
+import Register from 'views/Register.vue'
+import Home from 'views/Home.vue'
+import Index from 'views/Index.vue'
+import News from 'views/News.vue'
+import Add from 'views/Add.vue'
+import Me from 'views/Me.vue'
+import Blog from 'views/Blog.vue'
+import BlogDetail from 'views/BlogDetail'
 
 Vue.use(Router)
 
@@ -14,36 +19,61 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: {name: 'index'}
+    }, 
+    {
+      path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: 'index',
+          name: 'index',
+          component: Index
+        }, 
+        {
+          path: 'blog',
+          name: 'blog',
+          component: Blog,
+        }, 
+        {
+          path: 'add',
+          name: 'add',
+          component: Add
+        }, 
+        {
+          path: 'news',
+          name: 'news',
+          component: News
+        }, 
+        {
+          path: 'me',
+          name: 'me',
+          component: Me
+        }
+      ]
+    }, 
+    {
+      path: '/user',
+      name: 'user',
+      component: User,
+      children: [
+        {
+          path: 'login',
+          name: 'login',
+          component: Login
+        }, 
+        {
+          path: 'register',
+          name: 'register',
+          component: Register
+        }
+      ]
     },
     {
-      path: '/user/login',
-      name:'login',
-      component: Login
-    },
-    {
-      path: '/user/register',
-      name: 'register',
-      component: Register
-    },
-    {
-      path: '/news',
-      name: 'news',
-      component: News
-    },
-    {
-      path: '/me',
-      name: 'me',
-      component: Me
+      path: '/blogDetail',
+      name: 'blogDetail',
+      component: BlogDetail
     }
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
   ]
 })

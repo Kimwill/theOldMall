@@ -18,7 +18,7 @@
   </div>  
 </template>
 <script>
-  import InputGroup from "./../components/InputGroup"
+  import InputGroup from "components/InputGroup"
   export default {
     name: "login",
     components: {
@@ -35,7 +35,7 @@
   }
 </script>
 <style lang="stylus" scoped>
-@import './../assets/style/varible.styl'
+@import '~assets/style/varible.styl'
   .wrap,.header,.logo,.form,.btn,button
     width 100%
     box-sizing border-box
