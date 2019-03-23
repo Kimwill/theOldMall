@@ -155,7 +155,7 @@
 @import '~assets/style/varible.styl'
   .blog
     width 100%
-    margin-bottom $footerMargin
+    padding-bottom $footerMargin
     .headerWrap
     	background linear-gradient(to bottom, #fff, $bgColor)
     .wrap

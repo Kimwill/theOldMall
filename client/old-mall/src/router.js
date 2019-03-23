@@ -10,6 +10,7 @@ import Add from 'views/Add.vue'
 import Me from 'views/Me.vue'
 import Blog from 'views/Blog.vue'
 import BlogDetail from 'views/BlogDetail'
+import GoodDetail from 'views/GoodDetail'
 
 Vue.use(Router)
 
@@ -74,6 +75,11 @@ export default new Router({
       path: '/blogDetail',
       name: 'blogDetail',
       component: BlogDetail
+    },
+    {
+      path: '/goodDetail',
+      name: 'goodDetail',
+      component: GoodDetail
     }
   ]
 })

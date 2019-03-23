@@ -237,7 +237,7 @@
 			// width 100%
 		.mallWrap
 			margin-top .1rem
-			margin-bottom $footerMargin
+			padding-bottom $footerMargin
 			.waterFallItem
 				padding 0 4px 10px 4px !important
 				box-sizing border-box !important
