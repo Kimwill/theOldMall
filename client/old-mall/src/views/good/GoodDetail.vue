@@ -1,5 +1,6 @@
 <template>
 	<div class="goodDetailWrap">
+		<div class="back iconfont" @click="handleBackClick">&#xe608;</div>
 		<div class="good">
 			<div class="userInfo">
 				<div class="userIcon">
@@ -62,6 +63,11 @@
 					}]
 				}
 			}
+		},
+		methods: {
+			handleBackClick() {
+				this.$router.go(-1);
+			}
 		}
 	}
 </script>
@@ -69,7 +75,16 @@
 @import '~assets/style/varible.styl'
 	.goodDetailWrap
 		background $bgColor
+		.back
+			position fixed
+			top 0px
+			height .8rem
+			width 100%
+			background $bgColor
+			line-height .8rem
+			font-size .6rem
 		.good
+			margin-top .8rem
 			padding 0 $pageEdge
 			background #fff
 			.userInfo

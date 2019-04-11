@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use('/user', userRouter);
-app.use('/profiles', profilesRouter);
+app.use('/api/user', userRouter);
+app.use('/api/profiles', profilesRouter);
 
 app.listen(3000, () => {
     console.log('running on 3000');

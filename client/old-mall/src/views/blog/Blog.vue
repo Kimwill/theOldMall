@@ -2,6 +2,7 @@
   <div class="blog">
     <div class="wrap headerWrap">
       <div class="banner">
+        <!-- <span class="iconfont back" @click="handleBackClick">&#xe608;</span> -->
         <span class="header">帖子</span>
         <el-button type="primary" icon="el-icon-edit" class="addBlog">发帖子</el-button>
       </div>
@@ -17,7 +18,13 @@
       <div class="hotTopic"></div>
     </div>
     <div class="wrap">
-    	<div class="blogBlock" v-for="(blogItem, index) in blogDataForShow" :key="index">
+    	<router-link 
+        class="blogBlock" 
+        v-for="(blogItem, index) in blogDataForShow" 
+        :key="index"
+        :to="'/blogDetail/'+blogItem.blogId"
+        tag="div"
+      >
     		<div class="userInfo">
     			<div class="userIcon">
     				<img :src="blogItem.userIcon">
@@ -50,7 +57,7 @@
             <span class="iconDesc">{{blogItem.like}}</span>
           </div>
         </div>
-    	</div>
+    	</router-link>
     </div>
   </div>
 </template>
@@ -61,6 +68,7 @@
     	return {
     		search: "",
     		blogTestData: [{
+          blogId: 1,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -68,6 +76,7 @@
           comment: 10,
           like: 1
     		}, {
+          blogId: 2,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -80,6 +89,7 @@
           comment: 10,
           like: 1
     		}, {
+          blogId: 3,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -90,6 +100,7 @@
           comment: 10,
           like: 1
     		}, {
+          blogId: 4,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -108,6 +119,7 @@
           comment: 10,
           like: 1
     		}, {
+          blogId: 5,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -119,6 +131,7 @@
           comment: 10,
           like: 1
     		}, {
+          blogId: 6,
     			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
     			userName: '钦哥',
     			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
@@ -148,6 +161,11 @@
     		})
     		return this.blogTestData;
     	}
+    },
+    methods: {
+      // handleBackClick() {
+      //   this.$router.go(-1);
+      // }
     }
   }
 </script>
@@ -168,18 +186,27 @@
       	width 100%
       	font-size $headerFontSize
       	text-align center
-      	.header
-      		line-height 1rem
-      	.addBlog
-	      	position absolute
-	      	top 0
-	      	bottom 0
-	      	right 0
-	      	margin auto 0
-	      	width 1.8rem
-	      	height .6rem
-	      	font-size .25rem
-	      	border-radius 16px
+      .header
+        line-height 1rem
+      .addBlog
+        position absolute
+        top 0
+        bottom 0
+        right 0
+        margin auto 0
+        width 1.8rem
+        height .6rem
+        font-size .25rem
+        border-radius 16px
+      // .back
+      //   position absolute
+      //   top 0px
+      //   left 0px
+      //   display inline-block
+      //   height 1rem
+      //   line-height 1rem
+      //   font-size .6rem
+      //   color #000
 	    .search
 	    	box-sizing border-box
 	    	// border 1px solid #000

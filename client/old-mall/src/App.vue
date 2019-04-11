@@ -1,11 +1,15 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!-- <SlideLeft> -->
+      <router-view/>
+    <!-- </SlideLeft> -->
   </div>
 </template>
 <script>
+  import SlideLeft from 'components/SlideLeft'
   export default {
     components: {
+      SlideLeft
     }
   }
 </script>

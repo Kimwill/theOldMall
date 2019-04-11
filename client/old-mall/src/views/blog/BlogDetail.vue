@@ -1,85 +1,90 @@
 <template>
-	<div class="blogDetail">
-		<div class="carousel"
-			@touchstart="getTouchOriginX"
-			@touchmove="setTouchX"
-			@touchend="slideCb"
-			@click="handleCarouselClick">
-			<el-carousel 
-				height="250px" 
-				indicator-position="none" 
-				arrow="never" 
-				:autoplay="false"
-				@change="changeCarouselOrder"
-				ref="elCarousel"
-			>
-			  <el-carousel-item v-for="(item, index) in detailTestData.carouselImg" :key="index">
-			    <div class="carouselImg">
-			    	<img :src="item">
-			    </div>
-			  </el-carousel-item>
-			</el-carousel>
-			<span class="imgOrder">{{carouselOrder+1}}/{{detailTestData.carouselImg.length}}</span>
-		</div>
-		<div class="blogWrap">
-			<div class="user">
-				<div class="userInfo">
-					<div class="userIcon">
-						<img :src="detailTestData.userIcon">
-					</div>
-					<p class="userName">{{detailTestData.userName}}</p>
-				</div>
-				<button class="care">+关注</button>
-			</div>
-			<p class="content">{{detailTestData.content}}</p>
-		</div>
-		<div class="commentWrap">
-			<p class="num">评论 2</p>
-			<div>
-				<div 
-					class="commentItem" 
-					v-for="(commentItem, index) in detailTestData.comment"
-					:key="index"
+	<!-- <SlideLeft> -->
+		<div class="blogDetail" ref="blogDetail">
+			<div class="back iconfont" ref="back" @click="handleBackClick">&#xe608;</div>
+			<div class="carousel"
+				@touchstart="getTouchOriginX"
+				@touchmove="setTouchX"
+				@touchend="slideCb"
+				@click="handleCarouselClick">
+				<el-carousel 
+					height="250px" 
+					indicator-position="none" 
+					arrow="never" 
+					:autoplay="false"
+					@change="changeCarouselOrder"
+					ref="elCarousel"
 				>
-					<div class="userIcon">
-						<img :src="commentItem.userIcon">
+				  <el-carousel-item v-for="(item, index) in detailTestData.carouselImg" :key="index">
+				    <div class="carouselImg">
+				    	<img :src="item">
+				    </div>
+				  </el-carousel-item>
+				</el-carousel>
+				<span class="imgOrder">{{carouselOrder+1}}/{{detailTestData.carouselImg.length}}</span>
+			</div>
+			<div class="blogWrap">
+				<div class="user">
+					<div class="userInfo">
+						<div class="userIcon">
+							<img :src="detailTestData.userIcon">
+						</div>
+						<p class="userName">{{detailTestData.userName}}</p>
 					</div>
-					<div class="text">
-						<p class="userName">{{commentItem.userName}}</p>
-						<p class="comment">{{commentItem.comment}}</p>
+					<button class="care">+关注</button>
+				</div>
+				<p class="content">{{detailTestData.content}}</p>
+			</div>
+			<div class="commentWrap">
+				<p class="num">评论 2</p>
+				<div>
+					<div 
+						class="commentItem" 
+						v-for="(commentItem, index) in detailTestData.comment"
+						:key="index"
+					>
+						<div class="userIcon">
+							<img :src="commentItem.userIcon">
+						</div>
+						<div class="text">
+							<p class="userName">{{commentItem.userName}}</p>
+							<p class="comment">{{commentItem.comment}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="myComment">
+					<div class="inputWrap">
+						<el-input v-model="myComment" placehold="说点什么吧" class="inputBox"></el-input>
+						<!-- <input type="text" v-model="myComment" placeholder="说点什么吧" class="inputBox"> -->
+					</div>
+					<div class="iconBar">
+						<div class="blogInfoItem">
+						  <span class="iconfont">&#xe699;</span>
+						  <span class="iconDesc">1</span>
+						</div>
+						<div class="blogInfoItem">
+						  <span class="iconfont">&#xe696;</span>
+						  <span class="iconDesc">2</span>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="myComment">
-				<div class="inputWrap">
-					<el-input v-model="myComment" placehold="说点什么吧" class="inputBox"></el-input>
-					<!-- <input type="text" v-model="myComment" placeholder="说点什么吧" class="inputBox"> -->
-				</div>
-				<div class="iconBar">
-					<div class="blogInfoItem">
-					  <span class="iconfont">&#xe699;</span>
-					  <span class="iconDesc">1</span>
-					</div>
-					<div class="blogInfoItem">
-					  <span class="iconfont">&#xe696;</span>
-					  <span class="iconDesc">2</span>
-					</div>
-				</div>
-			</div>
+			<FadeAnimation>
+				<Gallery :imgArr="detailTestData.carouselImg" @close="galleryClose" v-show="isGalleryShow"></Gallery>
+			</FadeAnimation>
 		</div>
-		<FadeAnimation>
-			<Gallery :imgArr="detailTestData.carouselImg" @close="galleryClose" v-show="isGalleryShow"></Gallery>
-		</FadeAnimation>
-	</div>
+	<!-- </SlideLeft> -->
 </template>
 <script>
 	import FadeAnimation from 'components/Fade'
 	import Gallery from 'components/Gallery'
+	import SlideLeft from 'components/SlideLeft'
 	export default {
 		name: "blogDetail",
 		components: {
 			FadeAnimation,
-			Gallery
+			Gallery,
+			SlideLeft
 		},
 		data() {
 			return {
@@ -112,6 +117,13 @@
 			}
 		},
 		methods: {
+			handleScroll(e) {
+				this.$refs.back.style.background = document.documentElement.scrollTop > 100 ? 'rgba(0, 0, 0, 0.3)' : 'transparent';
+				console.log(1);
+			},
+			handleBackClick() {
+				this.$router.go(-1);
+			},
 			changeCarouselOrder(order) {
 				this.carouselOrder = order;
 			},
@@ -137,12 +149,30 @@
 			galleryClose() {
 				this.isGalleryShow = !this.isGalleryShow;
 			}
+		},
+		mounted() {
+			window.addEventListener('scroll', this.handleScroll, true);
+		},
+		destroyed() {
+			window.removeEventListener('scroll', this.handleScroll, true);
 		}
 	}
 </script>
 <style lang="stylus" scoped>
 @import '~assets/style/varible.styl'
 	.blogDetail
+		height 3000px
+		.back
+			position fixed
+			z-index 1000
+			top 0px
+			width 100%
+			height .8rem
+			background transparent
+			line-height .8rem
+			font-size .6rem
+			color #000
+			transition background .5s
 		.carousel
 			position relative
 			.carouselImg
@@ -181,23 +211,16 @@
 					flex 1
 					height 100%
 					.userIcon
-						// margin .1rem .1rem .1rem 0
-						// width .8rem
-						// height .9rem
-						// overflow hidden
-						// border-radius 5px
 						float left
 						width .8rem
 						height .8rem
 						margin .1rem
-						// box-sizing border-box
 						border-radius 10px
 						overflow hidden
 						img
 							display block
 							width 100%
 					.userName
-						// display inline-block
 						font-size .3rem
 						line-height 1rem
 						float left

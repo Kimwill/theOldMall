@@ -1,7 +1,7 @@
 const path = require('path')
 const debug = process.env.NODE_ENV !== 'production'
 
-function resolve (dir) {
+function resolve(dir) {
   console.log(__dirname)
   return path.join(__dirname, dir)
 }
@@ -15,25 +15,25 @@ module.exports = {
   productionSourceMap: true, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
   configureWebpack: config => { // webpack配置，值位对象时会合并配置，为方法时会改写配置
     if (debug) { // 开发环境配置
-        config.devtool = 'cheap-module-eval-source-map'
+      config.devtool = 'cheap-module-eval-source-map'
     } else { // 生产环境配置
     }
-    // Object.assign(config, { // 开发生产共同配置
-    //     resolve: {
-    //         alias: {
-    //             '@': path.resolve(__dirname, './src'),
-    //             '@c': path.resolve(__dirname, './src/components'),
-    //             'vue$': 'vue/dist/vue.esm.js'
-    //         }
-    //     }
-    // })
+    Object.assign(config, { // 开发生产共同配置
+      resolve: {
+        alias: {
+          // '@': path.resolve(__dirname, './src'),
+          // '@c': path.resolve(__dirname, './src/components'),
+          'vue$': 'vue/dist/vue.esm.js'
+        }
+      }
+    })
   },
   chainWebpack: config => { // webpack链接API，用于生成和修改webapck配置，https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-  	config.resolve.alias
-	  	.set('@$', resolve('src'))
-	  	.set('assets', resolve('src/assets'))
-	  	.set('components', resolve('src/components'))
-	  	.set('views', resolve('src/views'))
+    config.resolve.alias
+      .set('@$', resolve('src'))
+      .set('assets', resolve('src/assets'))
+      .set('components', resolve('src/components'))
+      .set('views', resolve('src/views'))
   },
   parallel: require('os').cpus().length > 1, // 构建时开启多进程处理babel编译
   pluginOptions: { // 第三方插件配置
@@ -48,14 +48,14 @@ module.exports = {
     hotOnly: false,
     proxy: { // 配置跨域
       '/api': {
-        target: 'http://localhost:5001/api/',
+        target: 'http://localhost:3000/api/',
         ws: true,
         changOrigin: true,
         pathRewrite: {
-            '^/api': ''
+          '^/api': ''
         }
       }
     },
-    before: app => { }
+    before: app => {}
   }
 }

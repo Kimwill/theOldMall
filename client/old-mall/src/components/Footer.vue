@@ -54,7 +54,7 @@
 		bottom 0
 		z-index 1000
 		background #fff
-		height 70px
+		height $footerHeight
 		width 100%
 		display flex
 		box-shadow 0 -10px 20px #cfcfcf

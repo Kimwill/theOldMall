@@ -4,15 +4,15 @@
 			<div class="header">消息</div>
 			<div class="newsType">
 				<div class="type">
-					<img src="./../assets/img/news/inform.png" alt="通知" class="img">
+					<img src="./../../assets/img/news/inform.png" alt="通知" class="img">
 					<p class="desc">通知消息</p>
 				</div>
 				<div class="type">
-					<img src="./../assets/img/news/new.png" alt="消息" class="img">
+					<img src="./../../assets/img/news/new.png" alt="消息" class="img">
 					<p class="desc">互动消息</p>
 				</div>
 				<div class="type">
-					<img src="./../assets/img/news/activity.png" alt="活动" class="img">
+					<img src="./../../assets/img/news/activity.png" alt="活动" class="img">
 					<p class="desc">活动消息</p>
 				</div>
 			</div>

@@ -43,6 +43,10 @@
 				<span class="iconfont">&#xe64a;</span>
 			</div>
 		</div>
+		<div class="wrap">
+			<div class="itemWrap loginRegister" v-if="isLogin">注册</div>
+			<div class="itemWrap loginRegister" v-else>登录</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -73,7 +77,8 @@
 				}, {
 					imgSrc: require('assets/img/me/sevice.png'),
 					itemText: '客服中心'
-				}]
+				}],
+				isLogin: true
 			}
 		}
 	}
@@ -176,4 +181,10 @@
 					line-height .8rem
 					width 10%
 					float right
+			.loginRegister
+				margin 0
+				padding 0 
+				font-size .3rem
+				text-align center
+				line-height .8rem
 </style>

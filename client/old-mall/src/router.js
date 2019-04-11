@@ -1,16 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import User from 'views/User.vue'
-import Login from 'views/Login.vue'
-import Register from 'views/Register.vue'
+import User from 'views/user/User.vue'
+import Login from 'views/user/Login.vue'
+import Register from 'views/user/Register.vue'
 import Home from 'views/Home.vue'
-import Index from 'views/Index.vue'
-import News from 'views/News.vue'
-import Add from 'views/Add.vue'
-import Me from 'views/Me.vue'
-import Blog from 'views/Blog.vue'
-import BlogDetail from 'views/BlogDetail'
-import GoodDetail from 'views/GoodDetail'
+import Index from 'views/good/Index.vue'
+import News from 'views/news/News.vue'
+import Add from 'views/add/Add.vue'
+import Me from 'views/me/Me.vue'
+import Blog from 'views/blog/Blog.vue'
+import BlogDetail from 'views/blog/BlogDetail.vue'
+import GoodDetail from 'views/good/GoodDetail.vue'
+import pullToRefreshLoad from 'components/pullToRefreshLoad.vue'
+import UploadTest from 'components/UploadTest.vue'
+import Issue from 'views/me/issue/Issue.vue'
+import MyGood from 'views/me/issue/MyGood.vue'
+import MyBlog from 'views/me/issue/MyBlog.vue'
 
 Vue.use(Router)
 
@@ -35,7 +40,7 @@ export default new Router({
         {
           path: 'blog',
           name: 'blog',
-          component: Blog,
+          component: Blog
         }, 
         {
           path: 'add',
@@ -72,14 +77,41 @@ export default new Router({
       ]
     },
     {
-      path: '/blogDetail',
+      path: '/BlogDetail/:id',
       name: 'blogDetail',
       component: BlogDetail
     },
     {
-      path: '/goodDetail',
+      path: '/goodDetail/:id',
       name: 'goodDetail',
       component: GoodDetail
+    },
+    {
+      path: '/me/issue',
+      name: 'issue',
+      component: Issue,
+      children: [
+        {
+          path: 'myGood',
+          name: 'myGood',
+          component: MyGood
+        },
+        {
+          path: 'myBlog',
+          name: 'myBlog',
+          component: MyBlog
+        }
+      ]
+    },
+    {
+      path: '/pullToRefreshLoad',
+      name: 'pullToRefreshLoad',
+      component: pullToRefreshLoad
+    },
+    {
+      path: '/uploadTest',
+      name: 'uploadTest',
+      component: UploadTest
     }
   ]
 })

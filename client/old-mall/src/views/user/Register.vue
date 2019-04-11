@@ -14,12 +14,13 @@
       <InputGroup type="password" name="确认密码" placeholder="请确认密码" v-model="user.password2"></InputGroup>
     </div>
     <div class="btn">
-      <button class="register">注册</button>
+      <button class="register" @click="handleRegister">注册</button>
       <button class="login">已经有账号？登录</button>
     </div>
   </div>  
 </template>
 <script>
+  import axios from 'axios'
   import InputGroup from "components/InputGroup"
   export default {
     name: "login",
@@ -34,6 +35,21 @@
           password: "",
           password2: ""
         }
+      }
+    },
+    methods: {
+      handleRegister() {
+        axios.post('/api/user/register', {
+          userName: this.user.userName,
+          accountNumber: this.user.accountNumber,
+          password: this.user.password
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
       }
     }
   }
