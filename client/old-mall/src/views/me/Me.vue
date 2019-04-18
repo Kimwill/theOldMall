@@ -1,25 +1,31 @@
 <template>
 	<div class="me">
 		<div class="wrap">
-			<div class="info">
+			<router-link 
+				class="info"
+				:to="infoLinkTo"
+				tag="div"
+			>
 				<div class="text">
-					<span class="userName">肖奕钦</span>
-					<span class="userDesc">这个人很懒，什么都没留下</span>
+					<span class="userName">{{user.name}}</span>
+					<span class="userDesc">{{user.desc}}</span>
 				</div>
-				<div class="avatar"></div>
+				<div class="avatar">
+					<img :src="user.avatar">
+				</div>
 				<span class="iconfont">&#xe64a;</span>
-			</div>
+			</router-link>
 			<div class="num">
 				<div class="numWrap">
-					<span class="number">1</span>
+					<span class="number">{{user.likeNum}}</span>
 					<span class="numDesc">超赞</span>
 				</div>
 				<div class="numWrap">
-					<span class="number">1</span>
+					<span class="number">{{user.careNum}}</span>
 					<span class="numDesc">关注数</span>
 				</div>
 				<div class="numWrap">
-					<span class="number">1</span>
+					<span class="number">{{user.fansNum}}</span>
 					<span class="numDesc">粉丝数</span>
 				</div>
 			</div>
@@ -44,7 +50,7 @@
 			</div>
 		</div>
 		<div class="wrap">
-			<div class="itemWrap loginRegister" v-if="isLogin">注册</div>
+			<div class="itemWrap loginRegister" v-if="isLogin">退出登录</div>
 			<div class="itemWrap loginRegister" v-else>登录</div>
 		</div>
 	</div>
@@ -54,6 +60,14 @@
 		name: "me",
 		data() {
 			return {
+				user: {
+					name: '未登录',
+					desc: '这个人很懒，什么都没留下',
+					avatar: require('./../../assets/img/me/editInfo/default.png'),
+					likeNum: 0,
+					careNum: 0,
+					fansNum: 0
+				},
 				itemArr: [{
 					imgSrc: require('assets/img/me/issue.png'),
 					itemText: '我发布的'
@@ -78,7 +92,19 @@
 					imgSrc: require('assets/img/me/sevice.png'),
 					itemText: '客服中心'
 				}],
-				isLogin: true
+				isLogin: false
+			}
+		},
+		computed: {
+			infoLinkTo() {
+				return this.isLogin ? '/me/editInfo' : '/user/login'
+			}
+		},
+		created() {
+			// console.log(localStorage.getItem('loginToken'));
+			// if(localStorage.getItem('loginToken'))
+			if(!localStorage.getItem('loginToken')) {
+				// this.
 			}
 		}
 	}
@@ -98,13 +124,13 @@
 				height 2rem
 				width 100%
 				box-sizing border-box
-				border 1px solid #000
+				// border 1px solid #000
 				display flex
 				.text
 					flex 7
 					margin auto 0
 					box-sizing border-box
-					border 1px solid #000
+					// border 1px solid #000
 					.userName
 						font-size .5rem
 						display block
@@ -114,28 +140,35 @@
 						display block
 				.avatar
 					flex 2.5
+					overflow hidden
 					box-sizing border-box
-					border 1px solid #000
+					// border 1px solid #000
+					display flex
+					align-items center
+					img
+						width 100%
 				.iconfont
 					flex .5
 					height 2rem
 					line-height 2rem
 					font-size .4rem
 					box-sizing border-box
-					border 1px solid #000
+					// border 1px solid #000
 			.num
 				display flex
 				height 1rem
 				box-sizing border-box
-				border 1px solid #000
+				// border 1px solid #000
 				.numWrap
 					flex 1
 					margin auto 0
 					text-align center
 					box-sizing border-box
-					border 1px solid #000
+					// border 1px solid #000
 					.number
 						display block
+						height .4rem
+						line-height .4rem
 						font-size .3rem
 					.numDesc
 						display block

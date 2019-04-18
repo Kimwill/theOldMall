@@ -16,14 +16,13 @@
 			<span class="iconfont">&#xe6cf;</span>
 			<p class="desc">帖子</p>			
 		</router-link>
-		<router-link 
+		<div
 			class="icon add"
-			:to="{name: 'add'}"
-			tag="div"
+			@click="handleAddClick"
 		>
 			<span class="iconfont">&#xe61f;</span>
 			<p class="desc">发布</p>			
-		</router-link>
+		</div>
 		<router-link 
 			class="icon"
 			:to="{name: 'news'}"
@@ -44,7 +43,13 @@
 </template>
 <script>
 	export default {
-		name: "Footer"
+		name: "Footer",
+		methods: {
+			handleAddClick() {
+				console.log(1);
+				this.$emit('addClick');
+			}
+		}
 	}
 </script>
 <style lang="stylus" scoped>
@@ -52,7 +57,7 @@
 	.footer
 		position fixed
 		bottom 0
-		z-index 1000
+		z-index 100
 		background #fff
 		height $footerHeight
 		width 100%

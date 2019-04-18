@@ -2,10 +2,12 @@
   <div class="wrap">
     <div class="header">
       <span class="back iconfont">&#xe608;</span>
-      <span class="name"></span>
+      <span class="name">注册</span>
     </div>
     <div class="logo">
-      
+      <div class="imgWrap">
+        <img src="./../../assets/img/user/avatar.png">
+      </div>    
     </div>
     <div class="form">
       <InputGroup type="text" name="用户名" placeholder="请输入用户名" v-model="user.userName"></InputGroup>
@@ -15,7 +17,7 @@
     </div>
     <div class="btn">
       <button class="register" @click="handleRegister">注册</button>
-      <button class="login">已经有账号？登录</button>
+      <button class="login" @click="changeToLogin">已经有账号？登录</button>
     </div>
   </div>  
 </template>
@@ -45,11 +47,15 @@
           password: this.user.password
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
+          this.$router.push({name: 'login'})
         })
         .catch((err) => {
           console.log(err);
         })
+      }, 
+      changeToLogin() {
+        this.$router.replace({name: "login"})
       }
     }
   }
@@ -61,33 +67,50 @@
     box-sizing border-box
   .wrap
     height 100%
-    padding 0 $pageEdge
+    padding $pageEdge
+    background-color #fff
     .header
-      height 8%
-      border 1px solid #000
-      display flex
+      height 1rem
+      position relative
+      // border 1px solid #000
       .back
         height 100%
-        width 20%
         font-size .6rem
-        line-height .9rem
+        line-height 1rem
+        position absolute
+        left 0
+        z-index 100
       .name
         height 100%
-        flex 1
+        line-height 1rem
+        position absolute
+        left 0
+        right 0
+        text-align center
+        font-size $headerFontSize
     .logo
-      height 30%
-      border 1px solid #000
+      height 3rem
+      // border 1px solid #000
+      .imgWrap
+        width 100%
+        height 100%
+        box-sizing border-box
+        padding .5rem
+        text-align center
+        img
+          height 100%
     .form
       height 30%
-      border 1px solid #000
+      // border 1px solid #000
     .btn
       height 25%
-      border 1px solid #000
+      // border 1px solid #000
       font-size 0  
       button
         height .6rem
         border-radius 3px
         text-align center
+        outline none
       .register
         background $themeColor
         color #fff

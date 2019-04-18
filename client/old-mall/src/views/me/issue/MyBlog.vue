@@ -1,5 +1,7 @@
 <template>
-	<div></div>
+	<div>
+		blog
+	</div>
 </template>
 <script>
 	export default {

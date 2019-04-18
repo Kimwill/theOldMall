@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import User from 'views/user/User.vue'
 import Login from 'views/user/Login.vue'
 import Register from 'views/user/Register.vue'
 import Home from 'views/Home.vue'
 import Index from 'views/good/Index.vue'
 import News from 'views/news/News.vue'
-import Add from 'views/add/Add.vue'
 import Me from 'views/me/Me.vue'
 import Blog from 'views/blog/Blog.vue'
 import BlogDetail from 'views/blog/BlogDetail.vue'
@@ -16,6 +14,8 @@ import UploadTest from 'components/UploadTest.vue'
 import Issue from 'views/me/issue/Issue.vue'
 import MyGood from 'views/me/issue/MyGood.vue'
 import MyBlog from 'views/me/issue/MyBlog.vue'
+import EditInfo from 'views/me/editInfo/EditInfo.vue'
+import EditAvatar from 'views/me/editInfo/EditAvatar'
 
 Vue.use(Router)
 
@@ -43,11 +43,6 @@ export default new Router({
           component: Blog
         }, 
         {
-          path: 'add',
-          name: 'add',
-          component: Add
-        }, 
-        {
           path: 'news',
           name: 'news',
           component: News
@@ -60,21 +55,14 @@ export default new Router({
       ]
     }, 
     {
-      path: '/user',
-      name: 'user',
-      component: User,
-      children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: Login
-        }, 
-        {
-          path: 'register',
-          name: 'register',
-          component: Register
-        }
-      ]
+      path: '/user/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/user/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '/BlogDetail/:id',
@@ -102,6 +90,16 @@ export default new Router({
           component: MyBlog
         }
       ]
+    },
+    {
+      path: '/me/editInfo',
+      name: 'editInfo',
+      component: EditInfo
+    },
+    {
+      path: '/me/editInfo/editAvatar',
+      name: 'editAvatar',
+      component: EditAvatar
     },
     {
       path: '/pullToRefreshLoad',

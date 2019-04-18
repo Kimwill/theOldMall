@@ -25,27 +25,33 @@
         </div>
       </div>
     </myScroll>
-    <Footer class="footer"></Footer>
+    <Fade><Add v-show="isAddShow" @addClose="handleAddClose"></Add></Fade>
+    <Footer class="footer" @addClick="handleAddClick"></Footer>
   </div>
 </template>
 
 <script>
 	import Footer from 'components/Footer.vue'
-	import myScroll from 'components/myScroll'
-  import SlideLeft from 'components/SlideLeft'
+	import myScroll from 'components/myScroll.vue'
+  import Add  from './add/Add.vue'
+  import Fade from 'components/Fade.vue'
+  // import SlideLeft from 'components/SlideLeft.vue'
   export default {
   	name: 'Home',
   	components: {
   		Footer,
       myScroll,
-      SlideLeft
+      Add,
+      Fade
+      // SlideLeft
   	},
     data() {
       return {
         pullDownMsg: '上拉刷新',
         pullUpMsg: '下拉加载',
         isPulldown: false,
-        isPullup: false
+        isPullup: false,
+        isAddShow: false
       }
     },
     beforeRouteUpdate(to, from, next) {
@@ -66,6 +72,13 @@
       },
       pullup() {
         this.isPullup = false;
+      },
+      handleAddClick() {
+        this.isAddShow = !this.isAddShow;
+        console.log(this.isAddShow);
+      },
+      handleAddClose() {
+        this.isAddShow = !this.isAddShow;
       }
     }
   }
