@@ -19,7 +19,24 @@ var UserSchema = new Schema({
         require: true
     },
     avatar: {
-        type: String
+        type: String,
+        default: 'http://ps39bryu4.bkt.clouddn.com/default.png'
+    },
+    userDesc: {
+        type: String,
+        default: '这个人很懒，什么都没留下'
+    },
+    likeNum: {
+        type: Number,
+        default: 0
+    },
+    careNum: {
+        type: Number,
+        default: 0
+    },
+    fansNum: {
+        type: Number,
+        default: 0
     },
     date: {
         type: String,

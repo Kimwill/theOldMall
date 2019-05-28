@@ -4,7 +4,7 @@
       <div class="banner">
         <!-- <span class="iconfont back" @click="handleBackClick">&#xe608;</span> -->
         <span class="header">帖子</span>
-        <el-button type="primary" icon="el-icon-edit" class="addBlog">发帖子</el-button>
+        <el-button type="primary" icon="el-icon-edit" class="addBlog" @click="addBlog">发帖子</el-button>
       </div>
       <div class="search">
       	<el-input
@@ -67,105 +67,49 @@
     data() {
     	return {
     		search: "",
-    		blogTestData: [{
-          blogId: 1,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [require('assets/img/blog/blogTest/blogTestImg.jpg')],
-          comment: 10,
-          like: 1
-    		}, {
-          blogId: 2,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg')
-	    		],
-          comment: 10,
-          like: 1
-    		}, {
-          blogId: 3,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg')
-    			],
-          comment: 10,
-          like: 1
-    		}, {
-          blogId: 4,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg')
-    			],
-          comment: 10,
-          like: 1
-    		}, {
-          blogId: 5,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg'),
-	    			require('assets/img/blog/blogTest/blogTestImg.jpg')
-    			],
-          comment: 10,
-          like: 1
-    		}, {
-          blogId: 6,
-    			userIcon: require('assets/img/blog/blogTest/userIcon.jpg'),
-    			userName: '钦哥',
-    			blogText: '今天跟仙人掌去摘了草莓，仙女夕阳草莓园，美好的一天',
-    			blogImg: [require('assets/img/blog/blogTest/blogTestImg.jpg')],
-          comment: 10,
-          like: 1
-    		}]
+        blogs: []
     	}
     },
     computed: {
-    	blogDataForShow() {
-	    	this.blogTestData.forEach((value) => {
-    			var imgNum = value.blogImg.length
-    			switch(true) {
-    				case imgNum === 0:
-	    				value.blogHidden = true;
-	    				break;
-	    			case imgNum === 1:
-		    			value.isSingleImg = true;
-		    			break;
-		    		case imgNum > 1:
-			    		value.isMultiImg = true;
-			    		break;
-				    default:
-					    alert('err');
-    			}
-    		})
-    		return this.blogTestData;
-    	}
+      blogDataForShow() {
+      	this.blogs.forEach((value) => {
+      		var imgNum = value.blogImg.length
+      		switch(true) {
+      			case imgNum === 0:
+      				value.blogHidden = true;
+      				break;
+      			case imgNum === 1:
+        			value.isSingleImg = true;
+        			break;
+        		case imgNum > 1:
+          		value.isMultiImg = true;
+          		break;
+      	    default:
+      		    alert('err');
+      		}
+      	})
+      	return this.blogs;
+      }
+    },
+    created() {
+      this.getBlogs()
+      console.log(this.blogs)
+    },
+    beforeRouteUpdate(to, from, next) {
+      next()
+      this.getBlogs()
     },
     methods: {
-      // handleBackClick() {
-      //   this.$router.go(-1);
-      // }
+      addBlog() {
+        this.$router.push({path: '/add/addBlog'})
+      },
+      getBlogs() {
+        this.axios.get('/api/profiles/blogs').then(res => {
+          // console.log(res)
+          this.blogs = res.data
+          console.log(this.blogs)
+        })        
+      }
     }
   }
 </script>
@@ -198,15 +142,6 @@
         height .6rem
         font-size .25rem
         border-radius 16px
-      // .back
-      //   position absolute
-      //   top 0px
-      //   left 0px
-      //   display inline-block
-      //   height 1rem
-      //   line-height 1rem
-      //   font-size .6rem
-      //   color #000
 	    .search
 	    	box-sizing border-box
 	    	// border 1px solid #000
@@ -234,8 +169,9 @@
 	    			border-radius 50%
 	    			overflow hidden
 	    			img
-	    				display block
-	    				width 100%
+              display block    
+              width 100%
+              height 100%    
 	    		.userName
 	    			flex 1
 	    			font-size .2rem

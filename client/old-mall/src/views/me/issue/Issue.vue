@@ -1,33 +1,44 @@
 <template>
 	<div class="issue">
-		<div class="header">
-			<div class="back iconfont" @click="handleBackClick">&#xe608;</div>
-			<span class="headerName">我发布的</span>
-		</div>
+		<Header :headerName="headerName"></Header>
 		<div class="content">
 			<div class="page" @click="changeView">宝贝</div>
-			<div class="page" @click="changeView">帖子</div>
-			<component :is="view"></component>
+			<div class="page" @click="changeView" :blogs="myIssue.blogs">帖子</div>
+			<component :is="view" :blogs="myIssue.blogs" :goods="myIssue.goods"></component>
 		</div>
 	</div>
 </template>
 <script>
+	import Header from 'components/Header.vue'
 	import MyGood from './MyGood.vue'
 	import MyBlog from './MyBlog.vue'
 	export default {
 		name: 'issue',
 		components: {
+			Header,
 			MyGood,
 			MyBlog
 		},
 		data() {
 			return {
-				view: 'MyGood'
+				userId: JSON.parse(localStorage.getItem('user'))._id,
+				headerName: "我发布的",
+				view: 'MyGood',
+				myIssue: {
+					goods: [],
+					blogs: []
+				}
 			}
 		},
+		created() {
+			this.init()
+		},
 		methods: {
-			handleBackClick() {
-				this.$router.go(-1); 
+			init() {
+				this.axios.get(`/api/profiles/getIssue/${this.userId}`).then(res => {
+					this.myIssue = res.data
+					console.log(this.myIssue.blogs)
+				})
 			},
 			changeView(e) {
 				if(e.target.innerText === '宝贝') {
@@ -42,26 +53,6 @@
 <style lang="stylus" scoped>
 @import '~assets/style/varible.styl'
 	.issue
-		.header
-			height .8rem
-			text-align center
-			background #fff
-			position relative
-			.back
-				height .8rem
-				line-height .8rem
-				font-size .6rem
-				color #000
-				position absolute
-				z-index 2
-				left 0
-			.headerName
-				font-size $headerFontSize
-				position absolute
-				left 0px
-				right 0px
-				margin auto
-				line-height .8rem
 		.content
 			// margin .3rem 0
 			padding 0 $pageEdge

@@ -1,9 +1,6 @@
 <template>
   <div class="wrap">
-    <div class="header">
-      <span class="back iconfont">&#xe608;</span>
-      <span class="name">登录</span>
-    </div>
+    <Header :headerName="headerName"></Header>
     <div class="logo">
       <div class="imgWrap">
         <img src="./../../assets/img/user/avatar.png">
@@ -16,21 +13,24 @@
       </div>
     </div>
     <div class="btn">
-      <button class="login" @click="handleLogin">登录</button>
-      <button class="register" @click="changeToRegister">还没有账号？注册</button>
+      <input type="button" class="login" @click="handleLogin" value="登录" />
+      <input type="button" class="register" @click="changeToRegister" value="还没有账号？注册" />
     </div>
   </div>  
 </template>
 <script>
   import axios from 'axios'
+  import Header from 'components/Header.vue'
   import InputGroup from "components/InputGroup"
   export default {
     name: "login",
     components: {
+      Header,
       InputGroup
     },
     data() {
       return {
+        headerName: "登录",
         user: {
           accountNumber: "",
           password: ""
@@ -44,8 +44,16 @@
           password: this.user.password
         })
         .then((res) => {
-          // console.log(res.data.token)
+          console.log(res)
           localStorage.setItem('loginToken', res.data.token)
+          let user = res.data.user
+          let newUser = {}
+          for(let i in user) {
+            if(i !== 'password') {
+              newUser[i] = user[i]
+            }
+          }
+          localStorage.setItem('user', JSON.stringify(newUser))
           this.$router.push({name: 'me'})
         })
         .catch((err) => {
@@ -67,25 +75,6 @@
     height 100%
     padding $pageEdge
     background-color #fff
-    .header
-      height 1rem
-      // border 1px solid #000
-      position relative
-      .back
-        height 100%
-        font-size .6rem
-        line-height 1rem
-        position absolute
-        left 0
-        z-index 100
-      .name
-        height 100%
-        line-height 1rem
-        position absolute
-        left 0
-        right 0
-        text-align center
-        font-size $headerFontSize
     .logo
       height 3rem
       // border 1px solid #000
@@ -102,12 +91,14 @@
       // border 1px solid #000
     .btn
       height 25%
+      width 100%
       // border 1px solid #000
       font-size 0
-      button
+      input
         height .6rem
+        width 100%
+        display block
         border-radius 3px
-        text-align center
         border none
         box-shadow 0px 2px 2px #aaa
         margin-bottom .1rem

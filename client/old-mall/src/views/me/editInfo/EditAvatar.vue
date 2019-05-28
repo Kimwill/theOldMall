@@ -1,10 +1,7 @@
 <template>
 	<div class="editAvatar">
-		<div class="header">
-			<span class="back iconfont" @click="handleBackClick">&#xe608;</span>
-			<span class="headerName">编辑头像</span>
-		</div>
-		<div class="wrap">
+		<Header :headerName="headerName"></Header>
+ 		<div class="wrap">
 			<div class="desc">选择图片</div>
 			<div class="upload">
 			  <el-upload
@@ -31,19 +28,23 @@
 </template>
 <script>
 	import axios from 'axios'
+	import Header from 'components/Header.vue'
 	export default {
 		name: 'editAvatar',
+		components: {
+			Header
+		},
 		data() {
 			return {
+				headerName: "编辑头像",
 				domain: 'http://upload-z2.qiniup.com',
 				token: {},
-				qiniuaddr: 'ppqbjkzai.bkt.clouddn.com',
+				qiniuaddr: 'ps39bryu4.bkt.clouddn.com',
 				exitFileList: [],
 				imageUrl: ''//require('assets/img/me/editInfo/default.png')
 			}
 		},
 		methods: {
-			handleBackClick() {},
 			addFile(file, fileList) {
 				var _this = this;
 	      var event = event || window.event;
@@ -54,16 +55,17 @@
 	      reader.onload = function(e) {
 	        _this.imageUrl = e.target.result //将图片路径赋值给src
 	      }
-	      // console.log(this.imageUrl);
+	      console.log(this.imageUrl);
 	      reader.readAsDataURL(file);
 			},
 			upqiniu(req) {
 				const config = {
 				  headers: {'Content-Type': 'multipart/form-data'}
 				}
-				let filetype = ''
+				let filetype = req.file.type
 				// 重命名要上传的文件
-				const keyname = 'xiaoyiqin2011' + new Date() + Math.floor(Math.random() * 100) + '.' + filetype
+				let userAccountNumber = JSON.parse(localStorage.getItem('user')).accountNumber
+				const keyname = '/avatar/' + userAccountNumber + '.' + filetype
 				// 从后端获取上传凭证token
 				axios.get('/api/qiniu/uploadToken').then(res => {
 				  // console.log(res)
@@ -74,21 +76,22 @@
 				  // 获取到凭证之后再将文件上传到七牛云空间
 				  axios.post(this.domain, formdata, config).then(res => {
 				  	if(res.status === 200) {
-				  		this.$message({
-				  			showClose: true,
-				  			message: '头像更改成功',
-				  			type: 'success',
-				  			customClass: 'messageDialog'
-				  		})
+				  		// this.$message({
+				  		// 	showClose: true,
+				  		// 	message: '头像更改成功',
+				  		// 	type: 'success',
+				  		// 	customClass: 'messageDialog'
+				  		// })
 				  		this.imageUrl = 'http://' + this.qiniuaddr + '/' + res.data.key
 				  		this.postImgUrl()
+				  		this.uploadSuccess()
 				  	} else {
-				  		this.$message({
-				  			showClose: true,
-				  			message: '更改失败，请重试',
-				  			type: 'error',
-				  			customClass: 'messageDialog'
-				  		})
+				  		// this.$message({
+				  		// 	showClose: true,
+				  		// 	message: '更改失败，请重试',
+				  		// 	type: 'error',
+				  		// 	customClass: 'messageDialog'
+				  		// })
 				  	}
 				  })
 				})
@@ -111,6 +114,13 @@
 				axios.post('/api/qiniu/uploadCb', {imageUrl: this.imageUrl})
 					.then(res => {console.log(res)});
 			},
+			uploadSuccess() {
+				let user = JSON.parse(localStorage.getItem('user'))
+				user.avatar = this.imageUrl
+				localStorage.removeItem('user')
+				localStorage.setItem('user', JSON.stringify(user))
+				this.$router.push({name: 'me'})
+			},
 			handleEdit() {
 				this.$refs.elUpload.submit();
 			}
@@ -120,26 +130,6 @@
 <style lang="stylus" scoped>
 @import '~assets/style/varible.styl'
 	.editAvatar
-		.header
-			height .8rem
-			text-align center
-			background #fff
-			position relative
-			.back
-				height .8rem
-				line-height .8rem
-				font-size .6rem
-				color #000
-				position absolute
-				z-index 2
-				left 0
-			.headerName
-				font-size $headerFontSize
-				position absolute
-				left 0px
-				right 0px
-				margin auto
-				line-height .8rem
 		.wrap
 			margin .3rem 0
 			padding .2rem $pageEdge

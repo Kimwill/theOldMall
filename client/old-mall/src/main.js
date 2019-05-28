@@ -6,9 +6,11 @@ import router from './router'
 import store from './store'
 import iconfont from './assets/style/iconfont/iconfont.css'
 import './assets/style/reset.css'
+import axios from './http'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+Vue.prototype.axios = axios
 
 new Vue({
   router,

@@ -4,37 +4,46 @@
 		<div class="good">
 			<div class="userInfo">
 				<div class="userIcon">
-					<img :src="goodDetailData.userIcon">
+					<img :src="good.userIcon">
 				</div>
-				<span class="userName">{{goodDetailData.userName}}</span>
+				<span class="userName">{{good.userName}}</span>
 			</div>
 			<div class="goodDetail">
-				<p class="price"><span>￥</span>{{goodDetailData.price}}</p>
-				<p class="goodDesc">{{goodDetailData.goodDesc}}</p>
+				<p class="price"><span>￥</span>{{good.price}}</p>
+				<p class="goodDesc">{{good.goodDesc}}</p>
 				<div class="goodImg">
-					<div class="goodImgItem" v-for="(imgItem, index) in goodDetailData.goodImg" :key="index">
+					<div class="goodImgItem" v-for="(imgItem, index) in good.goodImg" :key="index">
 						<img :src="imgItem">
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="leaveWord">
-			<p class="num">评论 {{goodDetailData.comment.length}}</p>
+			<p class="num">评论 {{comments.length}}</p>
 			<div>
 				<div 
 					class="commentItem" 
-					v-for="(commentItem, index) in goodDetailData.comment"
+					v-for="(commentItem, index) in comments"
 					:key="index"
 				>
 					<div class="userIcon">
-						<img :src="commentItem.userIcon">
+						<img :src="commentItem.userInfo.avatar">
 					</div>
 					<div class="text">
-						<p class="userName">{{commentItem.userName}}</p>
-						<p class="comment">{{commentItem.comment}}</p>
+						<p class="userName">{{commentItem.userInfo.userName}}</p>
+						<p class="comment">{{commentItem.content}}</p>
 					</div>
 				</div>
 			</div>
+			<div class="myComment">
+				<div class="inputWrap">
+					<el-input v-model="myComment" placeholder="说点什么吧..." class="inputBox"></el-input>
+					<el-button type="primary" class="issueBtn" size="small" @click="issueComment">发送</el-button>
+				</div>
+			</div>
+		</div>
+		<div class="buyBtnWrap">
+			<el-button type="primary" class="buyBtn" @click="buy">我想买</el-button>
 		</div>
 	</div>
 </template>
@@ -43,30 +52,58 @@
 		name: 'goodDetail',
 		data() {
 			return {
-				goodDetailData: {
-					userName: 'kim',
-					userIcon: require('assets/img/goodDetail/goodDetailTest/userIcon.jpg'),
-					goodDesc: '猫爬架 搬家放不下 转手',
-					price: 20,
-					goodImg: [
-						require('assets/img/goodDetail/goodDetailTest/1.jpg'),
-						require('assets/img/goodDetail/goodDetailTest/2.jpg')
-					],
-					comment: [{
-						userName: '肥',
-						userIcon: require('assets/img/goodDetail/goodDetailTest/userIcon.jpg'),
-						comment: '还在吗？'
-					}, {
-						userName: '肥',
-						userIcon: require('assets/img/goodDetail/goodDetailTest/userIcon.jpg'),
-						comment: '还在吗？'
-					}]
-				}
+				goodId: '',
+				good: {
+					userName: '',
+					userIcon: '',
+					goodDesc: '',
+					price: '',
+					goodImg: [],
+					commentNum: 0
+				},
+				comments: [],
+				myComment: ''
 			}
 		},
+		created() {
+			this.goodId = this.$route.params.id
+			this.init()
+			console.log(this.comments)
+		},
 		methods: {
+			init() {
+				this.axios.get(`/api/profiles/goodDetail/${this.goodId}`).then(res => {
+					this.good.userName = res.data.userName
+					this.good.userIcon = res.data.userIcon
+					this.good.goodDesc = res.data.goodDesc
+					this.good.price = res.data.goodPrice
+					this.good.goodImg = res.data.goodImg
+					this.good.merchantId = res.data.userId
+					console.log(this.good)
+				})
+				this.axios.get(`/api/profiles/comment/${this.$route.params.id}`).then(res => {
+					this.comments = res.data
+				})
+			},
 			handleBackClick() {
-				this.$router.go(-1);
+				this.$router.push({path: '/home/index'})
+			},
+			issueComment() {
+				let user = JSON.parse(localStorage.getItem('user'))
+				let commentModel = {
+					content: this.myComment,
+					userInfo: user,
+					relatedId: this.$route.params.id,
+					merchantId: this.good.merchantId,
+					type: 'blog'
+				}
+				this.axios.post(`/api/profiles/comment/${this.goodId}`, commentModel).then(res => {
+					this.comments.push(res.data)
+				})
+				this.myComment = ''
+			},
+			buy() {
+				this.$router.push({path: `/buy/${this.goodId}`})
 			}
 		}
 	}
@@ -102,6 +139,7 @@
 					img
 						display block
 						width 100%
+						height 100%
 				.userName
 					font-size .3rem
 					line-height 1rem
@@ -131,6 +169,7 @@
 		.leaveWord
 			padding 0 $pageEdge
 			margin-top .15rem
+			margin-bottom 60px
 			background #fff
 			.num
 				height .5rem
@@ -167,5 +206,36 @@
 				.comment
 					font-size .2rem
 					box-sizing border-box
-			
+			.myComment
+				height 50px
+				width 100%
+				padding 5px 0
+				margin-top .15rem
+				display flex
+				align-items center
+				box-sizing border-box
+				.inputWrap
+					// flex 2.6
+					width 100%
+					padding-right .1rem
+					display flex
+					.issueBtn
+						width 20%
+						text-align center
+						display inline-block
+					.inputBox
+						flex 1
+						font-size .24rem
+						height 100%
+		.buyBtnWrap
+			position fixed
+			bottom 0px
+			overflow hidden
+			width 100%
+			background #fff
+			display flex 
+			justify-content center
+			.buyBtn
+				width 80%
+				float left
 </style>

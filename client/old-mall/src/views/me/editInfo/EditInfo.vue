@@ -1,45 +1,63 @@
 <template>
 	<div class="editInfo">
-		<div class="header">
-			<span class="back iconfont" @click="handleBackClick">&#xe608;</span>
-			<span class="headerName">我的资料</span>
-		</div>
+		<Header :headerName="headerName"></Header>
 		<div class="outer">
 			<router-link class="avatar" to="/me/editInfo/editAvatar" tag="div">
 				<span class="desc">头像</span>
 				<div class="img">
-					<img src="./../../../assets/img/me/editInfo/default.png">
+					<img :src="avatar">
 				</div>
 				<span class="forward iconfont">&#xe64a;</span>
 			</router-link>
 			<div class="itemWrap" v-for="(item, index) in editItem" :key="index">
 				<span class="desc">{{item.desc}}</span>
-				<span class="content">{{item.content}}</span>
-				<span class="forward iconfont">&#xe64a;</span>
+				<input class="content" v-model="item.content" />
 			</div>
 		</div>
+		<el-button class="editBtn" type="primary" @click="edit">确认修改</el-button>
 	</div>
 </template>
 <script>
+	import Header from 'components/Header.vue'
 	export default {
 		name: 'editInfo',
+		components: {
+			Header
+		},
 		data() {
 			return {
+				headerName: "编辑资料",
+				avatar: '',
 				editItem: [{
 					desc: '昵称',
-					content: 'kim',
+					content: '',
 				}, {
-					desc: '性别',
-					content: 'man'
+					desc: '签名',
+					content: ''
 				}, {
-					desc: '生日',
-					content: '1996-10-30'
+					desc: '学校',
+					content: ''
 				}]
 			}
 		},
+		mounted() {
+			this.init()
+		},
 		methods: {
-			handleBackClick() {
-				this.$router.go(-1);
+			init() {
+				const user = JSON.parse(localStorage.getItem('user'))
+				this.avatar = user.avatar
+				this.editItem[0].content = user.userName
+				this.editItem[1].content = user.userDesc
+				this.editItem[2].content = user.school
+			},
+			edit() {
+				const user = JSON.parse(localStorage.getItem('user'))
+				user.userName = this.editItem[0].content
+				user.userDesc = this.editItem[1].content
+				user.school = this.editItem[2].content
+				localStorage.setItem('user', JSON.stringify(user))
+				this.$router.push({name: 'me'})
 			}
 		}
 	}
@@ -47,26 +65,6 @@
 <style lang="stylus" scoped>
 @import '~assets/style/varible.styl'
 	.editInfo
-		.header
-			height .8rem
-			text-align center
-			background #fff
-			position relative
-			.back
-				height .8rem
-				line-height .8rem
-				font-size .6rem
-				color #000
-				position absolute
-				z-index 2
-				left 0
-			.headerName
-				font-size $headerFontSize
-				position absolute
-				left 0px
-				right 0px
-				margin auto
-				line-height .8rem
 		.outer
 			margin-top .3rem
 			padding $pageEdge $pageEdge
@@ -110,10 +108,15 @@
 					width 25%
 				.content
 					width 70%
+					height 98%
+					border none
+					outline none
 				.forward
 					display inline-block
 					width 5%
 					font-size .4rem				
 			.itemWrap:last-child
 				border-bottom none		
+		.editBtn
+			width 100%
 </style>

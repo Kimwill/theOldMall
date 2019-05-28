@@ -1,34 +1,46 @@
 <template>
 	<div>
-		<div class="goodWrap" v-for="(item, index) in goods" :key="index">
+		<div class="goodWrap" v-for="(item, index) in commentNews" :key="index" @click="handleClick(item.infoId, item.type)">
 			<div class="imgWrap">
-				<img :src="item.goodImg[0]">
+				<img :src="item.img[0]">
 			</div>
 			<div class="descWrap">
-				<p class="goodName">{{item.goodHeader}}</p>
-				<p class="price">{{item.goodDesc}}</p>
+				<p class="goodName">{{item.header}}</p>
+				<p class="price">你有一条新评论</p>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
 	export default {
-		props: ['goods']
+		name: 'commentNews',
+		props: ['commentNews'],
+		methods: {
+			handleClick(infoId, type) {
+				if(type === 'good') {
+					this.$router.push({path: `/goodDetail/${infoId}`})
+				} else {
+					this.$router.push({path: `/blogDetail/${infoId}`})
+				}
+			}
+		}
 	}
 </script>
 <style lang="stylus" scoped>
 	.goodWrap
 		position relative
+		top 50px
 		width 100%
-		height 120px
+		height 100px
 		background #fff
 		box-sizing border-box
 		margin-top 10px
 		padding 10px
 		display flex 
+		border-bottom 1px solid #ccc
 		.imgWrap
 			height 100%
-			width 30%
+			width 20%
 			img
 				height 100%
 				width 100%

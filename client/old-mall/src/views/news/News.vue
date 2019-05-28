@@ -3,21 +3,22 @@
 		<div class="banner">
 			<div class="header">消息</div>
 			<div class="newsType">
-				<div class="type">
+				<div class="type" @click="changeView('good')">
 					<img src="./../../assets/img/news/inform.png" alt="通知" class="img">
-					<p class="desc">通知消息</p>
+					<p class="desc">商品消息</p>
 				</div>
-				<div class="type">
+				<div class="type" @click="changeView('comment')">
 					<img src="./../../assets/img/news/new.png" alt="消息" class="img">
 					<p class="desc">互动消息</p>
 				</div>
-				<div class="type">
+				<div class="type" @click="changeView('activity')">
 					<img src="./../../assets/img/news/activity.png" alt="活动" class="img">
 					<p class="desc">活动消息</p>
 				</div>
 			</div>
 		</div>
-		<div class="newsContent">
+		<component :is="view" :commentNews="commentNews"></component>		
+<!-- 		<div class="newsContent">
 			<div class="newsItem" v-for="(item, index) in newTestData">
 				<div class="userIcon">
 					<img :src="item.userIcon">
@@ -30,14 +31,23 @@
 					<img :src="item.goodImg">
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script>
+	import CommentNews from './CommentNews'
+	import GoodNews from './GoodNews'
+	import ActivityNews from './ActivityNews'
 	export default {
 		name: "news",
+		components: {
+			CommentNews,
+			GoodNews,
+			ActivityNews
+		},
 		data() {
 			return {
+				userId: JSON.parse(localStorage.getItem('user'))._id,
 				newTestData: [{
 					userIcon: require('assets/img/news/testData/userIcon.jpg'),
 					userName: '钦',
@@ -58,7 +68,49 @@
 					userName: '钦',
 					content: '点击查看评价内容',
 					goodImg: require('assets/img/news/testData/good.jpg')
-				}]
+				}],
+				view: 'commentNews',
+				commentNews: []
+			}
+		},
+		created() {
+			this.init()
+		},
+		methods: {
+			init() {
+				this.axios.get(`/api/profiles/getNews/${this.userId}`).then(res => {
+					res.data.forEach((value, index) => {
+						let infoId = value.infoId
+						if(res.data.type === 'good') {
+							this.axios.get(`/api/profiles/goodDetail/${infoId}`).then(good => {
+								let news = {}
+								news.img = good.data.goodImg
+								news.header = good.data.goodHeader
+								news.infoId =  infoId
+								news.type = 'good'
+								this.commentNews.push(news)
+							})
+						} else {
+							this.axios.get(`/api/profiles/blogDetail/${infoId}`).then(blog => {
+								let news = {}
+								news.img = blog.data.carouselImg
+								news.header = blog.data.blogHeader
+								news.infoId =  infoId
+								news.type = 'blog'
+								this.commentNews.push(news)
+							})						
+						}
+					})
+				})
+			},
+			changeView(text) {
+				if(text === 'good') {
+					this.view = 'goodNews'
+				} else if(text === 'comment') {
+					this.view = 'commentNews'
+				} else {
+					this.view = 'activityNews'
+				}
 			}
 		}
 	}
@@ -156,15 +208,15 @@
 						// border 1px solid #000
 						box-sizing border-box
 				.goodImg
-					width 25%
-					height 100%
+					width 20%
+					height 90%
 					overflow hidden
 					padding .1rem 0
 					// border 1px solid #000
 					box-sizing border-box
 					img
 						width 100%
-						// height 100%
+						height 100%
 						// border 1px solid #000
 						box-sizing border-box
 </style>

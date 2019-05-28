@@ -9,20 +9,21 @@
       @pullDown="handlePullDown"
     >
       <div>
-        <div class="top-tip tip">
+<!--         <div class="top-tip tip">
           <span class="refresh-hook">{{pullDownMsg}}</span>
         </div>
-        <!-- <SlideLeft> -->
-          <router-view 
-            @pulldown="pulldown" 
-            @pullup="pullup"
-            :isPulldown="isPulldown" 
-            :isPullup="isPullup"
-          ></router-view>
+ -->          <keep-alive>
+            <router-view 
+              @pulldown="pulldown" 
+              @pullup="pullup"
+              :isPulldown="isPulldown" 
+              :isPullup="isPullup"
+            ></router-view>
+          </keep-alive>
         <!-- </SlideLeft> -->
-        <div class="bottom-tip tip">
+ <!--        <div class="bottom-tip tip">
           <span class="load-hook">{{pullUpMsg}}</span>
-        </div>
+        </div> -->
       </div>
     </myScroll>
     <Fade><Add v-show="isAddShow" @addClose="handleAddClose"></Add></Fade>
@@ -75,7 +76,6 @@
       },
       handleAddClick() {
         this.isAddShow = !this.isAddShow;
-        console.log(this.isAddShow);
       },
       handleAddClose() {
         this.isAddShow = !this.isAddShow;

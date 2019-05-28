@@ -5,22 +5,28 @@ import Register from 'views/user/Register.vue'
 import Home from 'views/Home.vue'
 import Index from 'views/good/Index.vue'
 import News from 'views/news/News.vue'
+import GoodNews from 'views/news/GoodNews'
+import CommentNews from 'views/news/CommentNews'
+import ActivityNews from 'views/news/ActivityNews'
 import Me from 'views/me/Me.vue'
 import Blog from 'views/blog/Blog.vue'
 import BlogDetail from 'views/blog/BlogDetail.vue'
 import GoodDetail from 'views/good/GoodDetail.vue'
-import pullToRefreshLoad from 'components/pullToRefreshLoad.vue'
-import UploadTest from 'components/UploadTest.vue'
 import Issue from 'views/me/issue/Issue.vue'
 import MyGood from 'views/me/issue/MyGood.vue'
 import MyBlog from 'views/me/issue/MyBlog.vue'
+import MyBuy from 'views/me/buy/MyBuy.vue'
+import MySale from 'views/me/sale/MySale.vue'
 import EditInfo from 'views/me/editInfo/EditInfo.vue'
 import EditAvatar from 'views/me/editInfo/EditAvatar'
+import AddBlog from 'views/add/AddBlog'
+import AddGood from 'views/add/AddGood'
+import Buy from 'views/buy/Buy'
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -45,7 +51,24 @@ export default new Router({
         {
           path: 'news',
           name: 'news',
-          component: News
+          component: News,
+          children: [
+            {
+              path: 'goodNews',
+              name: 'goodNews',
+              component: GoodNews
+            },
+            {
+              path: 'commentNews',
+              name: 'commentNews',
+              component: CommentNews
+            },
+            {
+              path: 'activityNews',
+              name: 'activityNews',
+              component: ActivityNews
+            }
+          ]
         }, 
         {
           path: 'me',
@@ -92,6 +115,16 @@ export default new Router({
       ]
     },
     {
+      path: '/me/buy',
+      name: 'myBuy',
+      component: MyBuy
+    },
+    {
+      path: '/me/sale',
+      name: 'mySale',
+      component: MySale
+    },
+    {
       path: '/me/editInfo',
       name: 'editInfo',
       component: EditInfo
@@ -102,14 +135,19 @@ export default new Router({
       component: EditAvatar
     },
     {
-      path: '/pullToRefreshLoad',
-      name: 'pullToRefreshLoad',
-      component: pullToRefreshLoad
+      path: '/add/addBlog',
+      name: 'addBlog',
+      component: AddBlog
     },
     {
-      path: '/uploadTest',
-      name: 'uploadTest',
-      component: UploadTest
+      path: '/add/addGood',
+      name: 'addGood',
+      component: AddGood
+    },
+    {
+      path: '/buy/:id',
+      name: 'buy',
+      component: Buy
     }
   ]
 })

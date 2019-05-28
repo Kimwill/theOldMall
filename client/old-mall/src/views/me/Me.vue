@@ -7,11 +7,11 @@
 				tag="div"
 			>
 				<div class="text">
-					<span class="userName">{{user.name}}</span>
-					<span class="userDesc">{{user.desc}}</span>
+					<span class="userName">{{user.userName}}</span>
+					<span class="userDesc">{{user.userDesc}}</span>
 				</div>
 				<div class="avatar">
-					<img :src="user.avatar">
+					<img :src="user.avatar" v-if="user.avatar">
 				</div>
 				<span class="iconfont">&#xe64a;</span>
 			</router-link>
@@ -31,17 +31,17 @@
 			</div>
 		</div>	
 		<div class="wrap">
-			<div class="itemWrap" v-for="item in itemArr">
+			<div class="itemWrap" v-for="item in itemArr" @click="handleItemClick(item.itemText)">
 				<div class="imgWrap">
 					<img :src="item.imgSrc" class="itemIcon">
 				</div>
 				<span class="itemText">{{item.itemText}}</span>
 				<span class="iconfont">&#xe64a;</span>
-				<span class="itemNum">0</span>
+				<span class="itemNum">{{item.num}}</span>
 			</div>
 		</div>
 		<div class="wrap">
-			<div class="itemWrap" v-for="item in itemSetArr">
+			<div class="itemWrap" v-for="item in itemSetArr" @click="handleItemClick(item.itemText)">
 				<div class="imgWrap">
 					<img :src="item.imgSrc" class="itemIcon">
 				</div>
@@ -50,8 +50,8 @@
 			</div>
 		</div>
 		<div class="wrap">
-			<div class="itemWrap loginRegister" v-if="isLogin">退出登录</div>
-			<div class="itemWrap loginRegister" v-else>登录</div>
+			<div class="itemWrap loginRegister" v-if="isLogin" @click="handleLogout">退出登录</div>
+			<div class="itemWrap loginRegister" v-else @click="handleLogin">登录</div>
 		</div>
 	</div>
 </template>
@@ -61,28 +61,33 @@
 		data() {
 			return {
 				user: {
-					name: '未登录',
-					desc: '这个人很懒，什么都没留下',
-					avatar: require('./../../assets/img/me/editInfo/default.png'),
+					userName: '未登录',
+					userDesc: '',
+					avatar: '',
 					likeNum: 0,
 					careNum: 0,
 					fansNum: 0
 				},
 				itemArr: [{
 					imgSrc: require('assets/img/me/issue.png'),
-					itemText: '我发布的'
+					itemText: '我发布的',
+					num: 0
 				}, {
 					imgSrc: require('assets/img/me/sale.png'),
-					itemText: '我卖出的'
+					itemText: '我卖出的',
+					num: 0
 				}, {
 					imgSrc: require('assets/img/me/buy.png'),
-					itemText: '我买到的'
+					itemText: '我买到的',
+					num: 0
 				}, {
 					imgSrc: require('assets/img/me/collection.png'),
-					itemText: '我收藏的'
+					itemText: '我收藏的',
+					num: 0
 				}, {
 					imgSrc: require('assets/img/me/article.png'),
-					itemText: '我的帖子'
+					itemText: '我的帖子',
+					num: 0
 				}],
 
 				itemSetArr: [{
@@ -92,7 +97,7 @@
 					imgSrc: require('assets/img/me/sevice.png'),
 					itemText: '客服中心'
 				}],
-				isLogin: false
+				isLogin: false,
 			}
 		},
 		computed: {
@@ -103,8 +108,48 @@
 		created() {
 			// console.log(localStorage.getItem('loginToken'));
 			// if(localStorage.getItem('loginToken'))
-			if(!localStorage.getItem('loginToken')) {
-				// this.
+			if(localStorage.getItem('loginToken')) {
+				this.isLogin = true
+				this.user = JSON.parse(localStorage.getItem('user'))
+			}
+			this.init()
+		},
+		methods: {
+			init() {
+				this.axios.get(`/api/profiles/getNums/${this.user._id}`).then(res => {
+					this.itemArr[0].num = res.data.issueGoodNum + res.data.issueBlogNum
+					this.itemArr[1].num = res.data.saleNum
+					this.itemArr[2].num = res.data.buyNum
+				})
+			},
+			handleItemClick(itemText) {
+				switch(itemText) {
+					case '我发布的':
+						this.$router.push({path: '/me/issue'})
+						break
+					case '我买到的':
+						this.$router.push({path: '/me/buy'})
+						break
+					case '我卖出的':
+						this.$router.push({path: '/me/sale'})
+						break
+				}
+			},
+			handleLogout() {
+				this.isLogin = false
+				this.user = {
+					userName: '未登录',
+					userDesc: '',
+					avatar: '',
+					likeNum: 0,
+					careNum: 0,
+					fansNum: 0
+				}
+				localStorage.removeItem('loginToken')
+				localStorage.removeItem('user')
+			},
+			handleLogin() {
+				this.$router.push({name: "login"})
 			}
 		}
 	}
@@ -139,14 +184,16 @@
 						font-size .2rem
 						display block
 				.avatar
-					flex 2.5
+					// flex 2.5
+					width 1.2rem
 					overflow hidden
 					box-sizing border-box
 					// border 1px solid #000
 					display flex
 					align-items center
 					img
-						width 100%
+						width 1.2rem
+						height 1.2rem
 				.iconfont
 					flex .5
 					height 2rem

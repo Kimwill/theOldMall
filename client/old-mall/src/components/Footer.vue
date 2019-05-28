@@ -46,7 +46,6 @@
 		name: "Footer",
 		methods: {
 			handleAddClick() {
-				console.log(1);
 				this.$emit('addClick');
 			}
 		}

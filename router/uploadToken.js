@@ -4,7 +4,7 @@ const qnconfig = require('./../config/qiniuToken.js')
 
 router.get('/uploadToken', (req, res) => {
 	res.status(200).send(qnconfig.uploadToken);
-	console.log(qnconfig.uploadToken);
+	// console.log(qnconfig.uploadToken);
 })
 
 module.exports = router;

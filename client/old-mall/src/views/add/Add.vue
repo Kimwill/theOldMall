@@ -1,7 +1,15 @@
 <template>
 	<div class="add" @click="addFade">
-		<div class="item addGood">发商品</div>
-		<div class="item addBlog">发帖子</div>
+		<router-link 
+			class="item addGood" 
+			to="/add/addGood"
+			tag="div"
+		>发商品</router-link>
+		<router-link 
+			class="item addBlog" 
+			to="/add/addBlog"
+			tag="div"
+		>发帖子</router-link>
 	</div>
 </template>
 <script>
